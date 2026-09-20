@@ -1,0 +1,108 @@
+﻿//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/Users",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7014
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/gateway/users",
+//      "UpstreamHttpMethod": [
+//        "GET",
+//        "POST"
+//      ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "api/Products",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7175
+//        }
+//      ],
+//      "UpstreamPathTemplate": "gateway/Products",
+//      "UpstreamHttpMethod": [
+//        "GET",
+//        "POST"
+//      ]
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "https://localhost:7136"
+//  }
+//}
+{
+
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7136"
+  },
+
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/users",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DownstreamPathTemplate": "/api/Users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7014
+        }
+      ]
+    },
+
+    {
+      "UpstreamPathTemplate": "/gateway/Products",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DownstreamPathTemplate": "/api/Products",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7175
+        }
+      ]
+    },
+
+
+    {
+      "UpstreamPathTemplate": "/gateway/orders",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5108
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "Limit": 3,
+        "PeriodTimespan": 10
+      }
+    },
+
+    {
+      "UpstreamPathTemplate": "/gateway/Payment",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "DownstreamPathTemplate": "/api/Payment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5051
+        }
+      ]
+     
+    }
+
+
+
+  ]
+}
