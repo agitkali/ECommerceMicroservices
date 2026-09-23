@@ -1,28 +1,40 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Orders.CreateOrder;
-using MediatR;
+using OrderService.Infrastructure.Persistence;
 
 namespace OrderService.Controllers
 {
+   
     [Route("api/orders")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly OrderDbContext _dbContext;
 
         public OrdersController(
-            IMediator mediator)
+            IMediator mediator, OrderDbContext dbContext)
         {
             _mediator = mediator;
+            _dbContext = dbContext;
         }
 
-
         [HttpGet]
-        public string[] GetOrder()
+        public async Task<IActionResult> Get(Guid Id)
         {
+            var result = await _dbContext.Orders.Where(x => x.Id == Id).ToListAsync();
+
             // Returning an array of strings
-            return new string[] { "Laptop", "Mobile", "Tablet" };
+            if (result.Any())
+            {
+                return Ok(result);
+            }
+            return BadRequest();
         }
 
         [HttpPost]

@@ -99,20 +99,6 @@ namespace OrderService.Infrastructure.Messaging
 
             foreach (var message in messages)
             {
-                //var body =
-                //    Encoding.UTF8.GetBytes(
-                //        message.Payload);
-
-                //await channel.BasicPublishAsync(
-                //    exchange: "ecommerce.exchangez",
-                //    routingKey: "order.created",
-                //    body: body);
-
-
-                //message.ProcessedDate =
-                //    DateTime.UtcNow;
-
-
                 var body = Encoding.UTF8.GetBytes(message.Payload);
 
                 var properties = new BasicProperties

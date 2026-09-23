@@ -45,7 +45,26 @@
     {
       "UpstreamPathTemplate": "/gateway/users",
       "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "Limit": 3,
+        "PeriodTimespan": 10
+      },
       "DownstreamPathTemplate": "/api/Users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7014
+        }
+      ]
+    },
+
+    {
+      "UpstreamPathTemplate": "/gateway/Auth/login",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/Auth/login",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -70,14 +89,19 @@
 
 
     {
-      "UpstreamPathTemplate": "/gateway/orders",
-      "UpstreamHttpMethod": [ "GET", "POST" ],
-      "DownstreamPathTemplate": "/api/orders",
-      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/gateway/orders/{Id}",
+      "UpstreamHttpMethod": [ "POST" ],
+
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+
+      "DownstreamPathTemplate": "/api/orders/{Id}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5108
+          "Port": 7064
         }
       ],
       "RateLimitOptions": {
@@ -87,6 +111,36 @@
         "PeriodTimespan": 10
       }
     },
+
+   
+    {
+      "UpstreamPathTemplate": "/gateway/orders",
+      "UpstreamHttpMethod": [ "POST" ],
+
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+
+      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamScheme": "https",
+
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7064
+        }
+      ],
+
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "Limit": 3,
+        "PeriodTimespan": 10
+      }
+    },
+
+
+
 
     {
       "UpstreamPathTemplate": "/gateway/Payment",
@@ -99,7 +153,7 @@
           "Port": 5051
         }
       ]
-     
+
     }
 
 
